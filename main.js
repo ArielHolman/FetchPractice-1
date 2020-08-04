@@ -12,11 +12,22 @@ window.onload = function () {
   getPosts()
 }
 
+const checkFetch = function (res) {
+  if (!res.ok) {
+    throw Error(res.statusText + " - " + res.url)
+  }
+  return res
+}
 // This function is going to make a fetch request to the URL inside its parameter brackets (). Then it will turn the response (data it's getting back), saved here as res. The res.json will not be saved as posts and saved into the variable, arrayOfPosts
 const getPosts = () => {
   fetch("http://jsonplaceholder.typicode.com/posts")
+    .then(checkFetch)
     .then((res) => res.json())
     .then((posts) => (arrayOfPosts = posts))
+    .catch(function (err) {
+      console.log("Error")
+      console.log(err)
+    })
 }
 
 // This function logs the results in your browser's console
@@ -75,8 +86,8 @@ const fetchComments = () => {
 }
 
 const clearList = () => {
-  arrayOfPosts = document.getElementsByTagName("UL")
+  allPosts = document.getElementsByTagName("UL")
   // eslint-disable-next-line prettier/prettier
-  for (i = 0; i < arrayOfPosts.length; i++) arrayOfPosts[i].innerHTML = null
+  for (i = 0; i < allPosts.length; i++) allPosts[i].innerHTML = null
 }
 // Your job now is to follow the functions above and use them as templates to build the functionality that the buttons in the index.html file already have laid out in it. This way you can learn how to build fetch requests and work with other APIs and become a real developer.
